@@ -4,7 +4,7 @@ import pytest
 from git import Repo
 from git.exc import InvalidGitRepositoryError
 
-from s3_file import __version__
+from s3_reader import __version__
 
 
 def test_version():

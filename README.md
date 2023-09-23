@@ -1,7 +1,7 @@
-# s3-file
+# s3-reader
 
-[![test](https://github.com/rcmdnk/s3-file/actions/workflows/test.yml/badge.svg)](https://github.com/rcmdnk/s3-file/actions/workflows/test.yml)
-[![test coverage](https://img.shields.io/badge/coverage-check%20here-blue.svg)](https://github.com/rcmdnk/s3-file/tree/coverage)
+[![test](https://github.com/rcmdnk/s3-reader/actions/workflows/test.yml/badge.svg)](https://github.com/rcmdnk/s3-reader/actions/workflows/test.yml)
+[![test coverage](https://img.shields.io/badge/coverage-check%20here-blue.svg)](https://github.com/rcmdnk/s3-reader/tree/coverage)
 
 Python library to read S3 file as local file.
 
@@ -12,13 +12,13 @@ Python library to read S3 file as local file.
 ## Installation
 
 ```bash
-$ pip install s3-file
+$ pip install s3-reader
 ```
 
 ## Usage
 
 ```
-from s3_file import File
+from s3_reader import File
 
 
 def check_s3_file(path):
