@@ -1054,13 +1054,13 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pyproject-pre-commit"
-version = "0.0.27"
+version = "0.0.28"
 description = "pre-commit hooks for python projects using pyproject.toml."
 optional = false
-python-versions = ">=3.8.1"
+python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "pyproject_pre_commit-0.0.27-py3-none-any.whl", hash = "sha256:3e9d6d6625db2ebfcbe6776e2c19b2fa0a5884c9eade97392c6fb587555bf3ca"},
-    {file = "pyproject_pre_commit-0.0.27.tar.gz", hash = "sha256:3fea7ab91b1d9803568d83941ffba6fa9d9755d8f732c80be89e8a11df0ca031"},
+    {file = "pyproject_pre_commit-0.0.28-py3-none-any.whl", hash = "sha256:44899a334b13d65002d1a25341a17778248fe6331837c2655c9aa523fcf7bd93"},
+    {file = "pyproject_pre_commit-0.0.28.tar.gz", hash = "sha256:4f70d427174943565115f9dc0f319d7df8cc88f5bb4711bb4a7df4508199e408"},
 ]
 
 [package.dependencies]
@@ -1516,4 +1516,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "eaabbafab44c9910227bf9e7dfb1b996bbea59e69ddcf94a9b6ab22116fd881d"
+content-hash = "1b7abc5138d034f8fbd48328a8c3a6a1325d4305625804b15a211bc432bc7f52"
