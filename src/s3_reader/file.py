@@ -21,6 +21,7 @@ class File:
     s3_profile: str | None = None
 
     def __post_init__(self) -> None:
+        self.orig_path = self.path
         self.path = self.fix_path(self.path)
         self.tmp_file: tempfile._TemporaryFileWrapper[bytes] | None = None
         if self.path.startswith("s3:"):
