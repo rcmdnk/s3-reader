@@ -51,7 +51,13 @@ class File:
         return bucket_name, file_name, file_extension
 
     def download_s3_file(self) -> str:
+        # boto3.session.Session(profile_name=self.s3_profile).resource("s3") uses random.
+        # To avoid unnoticed change of random state, restore random state after the process.
+        import random
+
         import boto3
+
+        state = random.getstate()
 
         bucket_name, file_name, file_extension = self.extract_s3_info(
             self.path
@@ -61,4 +67,7 @@ class File:
         temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
         bucket.download_file(file_name, temp_file.name)
         self.tmp_file = temp_file
+
+        random.setstate(state)
+
         return temp_file.name
