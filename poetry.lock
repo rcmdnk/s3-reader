@@ -158,32 +158,32 @@ black = ">=22.1.0"
 
 [[package]]
 name = "boto3"
-version = "1.33.12"
+version = "1.34.2"
 description = "The AWS SDK for Python"
 optional = false
-python-versions = ">= 3.7"
+python-versions = ">= 3.8"
 files = [
-    {file = "boto3-1.33.12-py3-none-any.whl", hash = "sha256:475efcff30401041e9c348e20613eca90ab14a224e2f978ca80de98ba3499435"},
-    {file = "boto3-1.33.12.tar.gz", hash = "sha256:2225edaea2fa17274f62707c12d9f7803c998af7089fe8a1ec8e4f1ebf47677e"},
+    {file = "boto3-1.34.2-py3-none-any.whl", hash = "sha256:aad3f305fe3cd4f2bba545c9580cd460c366af56a8aabb6094528dd32317f8d2"},
+    {file = "boto3-1.34.2.tar.gz", hash = "sha256:970fd9f9f522eb48f3cd5574e927b369279ebf5bcf0f2fae5ed9cc6306e58558"},
 ]
 
 [package.dependencies]
-botocore = ">=1.33.12,<1.34.0"
+botocore = ">=1.34.2,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
-s3transfer = ">=0.8.2,<0.9.0"
+s3transfer = ">=0.9.0,<0.10.0"
 
 [package.extras]
 crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.33.12"
+version = "1.34.2"
 description = "Low-level, data-driven core of boto 3."
 optional = false
-python-versions = ">= 3.7"
+python-versions = ">= 3.8"
 files = [
-    {file = "botocore-1.33.12-py3-none-any.whl", hash = "sha256:48b9cfb9c5f7f9634a71782f16a324acb522b65856ad46be69efe04c3322b23c"},
-    {file = "botocore-1.33.12.tar.gz", hash = "sha256:067c94fa88583c04ae897d48a11d2be09f280363b8e794b82d78d631d3a3e910"},
+    {file = "botocore-1.34.2-py3-none-any.whl", hash = "sha256:655b1ea2a5d7b989a0eb6006c16137f785bc7334f31378115668c4be5d4b00eb"},
+    {file = "botocore-1.34.2.tar.gz", hash = "sha256:8a9f4ad438ba814b9b7a22b24de3004f8aa232e7ae86e0087aea4d7792dc3a2a"},
 ]
 
 [package.dependencies]
@@ -1317,13 +1317,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyproject-pre-commit"
-version = "0.1.2"
+version = "0.1.4"
 description = "pre-commit hooks for python projects using pyproject.toml."
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "pyproject_pre_commit-0.1.2-py3-none-any.whl", hash = "sha256:b428558e3bd0d1b01dabc4e861ccb8bef8fcc4771081102f44f30e5fa2058104"},
-    {file = "pyproject_pre_commit-0.1.2.tar.gz", hash = "sha256:2fe493b1c90f843b67e6d3beb736ffdf060c79d11494eba7c983882f6bc2f7c8"},
+    {file = "pyproject_pre_commit-0.1.4-py3-none-any.whl", hash = "sha256:545cec7927a4133f858f515fdc07c976d00a25f95174b2e13ef483525076a5af"},
+    {file = "pyproject_pre_commit-0.1.4.tar.gz", hash = "sha256:cc63b6a60e4c987b697e4bf106bb5465482bf5819bfeda3db17267297ad5e87b"},
 ]
 
 [package.dependencies]
@@ -1640,13 +1640,13 @@ files = [
 
 [[package]]
 name = "s3transfer"
-version = "0.8.2"
+version = "0.9.0"
 description = "An Amazon S3 Transfer Manager"
 optional = false
-python-versions = ">= 3.7"
+python-versions = ">= 3.8"
 files = [
-    {file = "s3transfer-0.8.2-py3-none-any.whl", hash = "sha256:c9e56cbe88b28d8e197cf841f1f0c130f246595e77ae5b5a05b69fe7cb83de76"},
-    {file = "s3transfer-0.8.2.tar.gz", hash = "sha256:368ac6876a9e9ed91f6bc86581e319be08188dc60d50e0d56308ed5765446283"},
+    {file = "s3transfer-0.9.0-py3-none-any.whl", hash = "sha256:01d4d2c35a016db8cb14f9a4d5e84c1f8c96e7ffc211422555eed45c11fa7eb1"},
+    {file = "s3transfer-0.9.0.tar.gz", hash = "sha256:9e1b186ec8bb5907a1e82b51237091889a9973a2bb799a924bcd9f301ff79d3d"},
 ]
 
 [package.dependencies]
