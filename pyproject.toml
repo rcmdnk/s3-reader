@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "s3-reader"
-version = "0.1.1"
-description = ""
+version = "0.1.2"
+description = "Python library to read S3 file as local file."
 authors = ["rcmdnk <rcmdnk@gmail.com>"]
 repository = "https://github.com/rcmdnk/s3-reader"
 homepage = "https://github.com/rcmdnk/s3-reader"
 readme = "README.md"
-license = "Python library to read S3 file as local file."
+license = "Apache-2.0"
 keywords = []
 classifiers = []
 

@@ -66,15 +66,18 @@ class File:
 
         state = random.getstate()
 
-        n = 0
+        bucket_name, file_name, file_extension = self.extract_s3_info(
+            self.path
+        )
         temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
+
+        n = 0
         while True:
             n += 1
             try:
-                bucket_name, file_name, file_extension = self.extract_s3_info(
-                    self.path
-                )
-                s3 = boto3.session.Session(profile_name=self.s3_profile).resource("s3")
+                s3 = boto3.session.Session(
+                    profile_name=self.s3_profile
+                ).resource("s3")
                 bucket = s3.Bucket(bucket_name)
                 bucket.download_file(file_name, temp_file.name)
                 self.tmp_file = temp_file
@@ -84,6 +87,7 @@ class File:
                     temp_file.close()
                     raise e
                 import time
+
                 time.sleep(1)
 
         random.setstate(state)
