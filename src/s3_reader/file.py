@@ -15,10 +15,16 @@ class File:
         The path of the file. A local path or path to the S3 (s3://...) can be used.
     s3_profile : str | None
         Profile name for S3 session.
+    max_trials : int
+        The maximum number of trials to download the file from S3.
+        If the download fails by CredentialRetrievalError (it can occur by
+        failing to access meta data API while multi-processing),
+        the file is downloaded again.
     """
 
     path: str | Path
     s3_profile: str | None = None
+    max_trials: int = 10
 
     def __post_init__(self) -> None:
         self.orig_path = self.path
@@ -56,17 +62,29 @@ class File:
         import random
 
         import boto3
+        from botocore.exceptions import CredentialRetrievalError
 
         state = random.getstate()
 
-        bucket_name, file_name, file_extension = self.extract_s3_info(
-            self.path
-        )
-        s3 = boto3.session.Session(profile_name=self.s3_profile).resource("s3")
-        bucket = s3.Bucket(bucket_name)
+        n = 0
         temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
-        bucket.download_file(file_name, temp_file.name)
-        self.tmp_file = temp_file
+        while True:
+            n += 1
+            try:
+                bucket_name, file_name, file_extension = self.extract_s3_info(
+                    self.path
+                )
+                s3 = boto3.session.Session(profile_name=self.s3_profile).resource("s3")
+                bucket = s3.Bucket(bucket_name)
+                bucket.download_file(file_name, temp_file.name)
+                self.tmp_file = temp_file
+                break
+            except CredentialRetrievalError as e:
+                if n >= self.max_trials:
+                    temp_file.close()
+                    raise e
+                import time
+                time.sleep(1)
 
         random.setstate(state)
 
