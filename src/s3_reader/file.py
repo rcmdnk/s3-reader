@@ -13,18 +13,37 @@ class File:
     ----------
     path : str | Path
         The path of the file. A local path or path to the S3 (s3://...) can be used.
-    s3_profile : str | None
-        Profile name for S3 session.
-    max_trials : int
-        The maximum number of trials to download the file from S3.
-        If the download fails by CredentialRetrievalError (it can occur by
-        failing to access meta data API while multi-processing),
-        the file is downloaded again.
+    profile_name : str | None
+        AWS profile name.
+    aws_access_key_id : str | None
+        AWS access key id.
+    aws_secret_access_key : str | None
+        AWS secret access key.
+    aws_session_token : str | None
+        AWS session token.
+    region_name : str | None
+        AWS region name.
+    role_arn : str | None
+        AWS role arn for Assume role. If this is set, aws_access_key_id,
+        aws_secret_access_key, aws_session_token are replaced by Assume role.
+    session_name : str
+        AWS session name. Default is "s3_reader".
+    retry_mode : str
+        Retry mode for failed requests. Default is "standard".
+    max_attempts : int
+        Maximum number of retry attempts for failed requests. Default is 10.
     """
 
     path: str | Path
-    s3_profile: str | None = None
-    max_trials: int = 10
+    profile_name: str | None = None
+    aws_access_key_id: str | None = None
+    aws_secret_access_key: str | None = None
+    aws_session_token: str | None = None
+    region_name: str | None = None
+    role_arn: str | None = None
+    session_name: str = "boto3_session"
+    retry_mode: str = "standard"
+    max_attempts: int = 10
 
     def __post_init__(self) -> None:
         self.orig_path = self.path
@@ -61,8 +80,7 @@ class File:
         # To avoid unnoticed change of random state, restore random state after the process.
         import random
 
-        import boto3
-        from botocore.config import Config
+        from boto3_session import Session
 
         state = random.getstate()
 
@@ -71,9 +89,17 @@ class File:
         )
         temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
 
-        s3 = boto3.session.Session(profile_name=self.s3_profile).resource(
-            "s3", config=Config(retries={"mode": "standard"})
-        )
+        s3 = Session(
+            profile_name=self.profile_name,
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
+            aws_session_token=self.aws_session_token,
+            region_name=self.region_name,
+            role_arn=self.role_arn,
+            session_name=self.session_name,
+            retry_mode=self.retry_mode,
+            max_attempts=self.max_attempts,
+        ).resource("s3")
         bucket = s3.Bucket(bucket_name)
         bucket.download_file(file_name, temp_file.name)
         self.tmp_file = temp_file
