@@ -12,7 +12,7 @@ classifiers = []
 
 [tool.poetry.dependencies]
 python = "^3.9"
-boto3-session = "0.0.2"
+boto3-session = "0.0.3"
 
 [tool.poetry.group.dev.dependencies]
 tomli = { version = "^2.0.1", python = "<3.11"}

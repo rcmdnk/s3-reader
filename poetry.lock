@@ -178,13 +178,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "boto3-session"
-version = "0.0.2"
+version = "0.0.3"
 description = "Wrapper library for python boto3.session.Session."
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "boto3_session-0.0.2-py3-none-any.whl", hash = "sha256:f879efdb147af9ea1f901f4c374de986b202aa05a9a96d1364f5ecf69cdb0f66"},
-    {file = "boto3_session-0.0.2.tar.gz", hash = "sha256:358d110165968baeb9fb55e5dd83e9de4d536f5da148baac4f925e67601c73bc"},
+    {file = "boto3_session-0.0.3-py3-none-any.whl", hash = "sha256:1e4861300821e4181b6cb129e8584cff4ae246efdbb0c0964a7066967afbf3d0"},
+    {file = "boto3_session-0.0.3.tar.gz", hash = "sha256:d9d5707064713c91f27b5768bdc7ec1895195a49359d6b560e36045b881f7277"},
 ]
 
 [package.dependencies]
@@ -2009,4 +2009,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "94e5860ecd5b999ce186aefb9d0e7c21664d8e3a2ce0d7fa60a4ca6534b59cc6"
+content-hash = "0083c57fb20378121ef797c52dbc475855499a506ee693d790d7f85ded259b35"
