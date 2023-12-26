@@ -62,7 +62,7 @@ class File:
         import random
 
         import boto3
-        from botocore.exceptions import CredentialRetrievalError
+        from botocore.config import Config
 
         state = random.getstate()
 
@@ -71,24 +71,12 @@ class File:
         )
         temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
 
-        n = 0
-        while True:
-            n += 1
-            try:
-                s3 = boto3.session.Session(
-                    profile_name=self.s3_profile
-                ).resource("s3")
-                bucket = s3.Bucket(bucket_name)
-                bucket.download_file(file_name, temp_file.name)
-                self.tmp_file = temp_file
-                break
-            except CredentialRetrievalError as e:
-                if n >= self.max_trials:
-                    temp_file.close()
-                    raise e
-                import time
-
-                time.sleep(1)
+        s3 = boto3.session.Session(
+            profile_name=self.s3_profile
+        ).resource("s3", config=Config(retries={'mode': 'standard'}))
+        bucket = s3.Bucket(bucket_name)
+        bucket.download_file(file_name, temp_file.name)
+        self.tmp_file = temp_file
 
         random.setstate(state)
 
