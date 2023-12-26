@@ -71,9 +71,9 @@ class File:
         )
         temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
 
-        s3 = boto3.session.Session(
-            profile_name=self.s3_profile
-        ).resource("s3", config=Config(retries={'mode': 'standard'}))
+        s3 = boto3.session.Session(profile_name=self.s3_profile).resource(
+            "s3", config=Config(retries={"mode": "standard"})
+        )
         bucket = s3.Bucket(bucket_name)
         bucket.download_file(file_name, temp_file.name)
         self.tmp_file = temp_file
