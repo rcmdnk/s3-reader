@@ -159,17 +159,17 @@ black = ">=22.1.0"
 
 [[package]]
 name = "boto3"
-version = "1.34.7"
+version = "1.34.8"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "boto3-1.34.7-py3-none-any.whl", hash = "sha256:04c1cc752946f20513ed70058d4b750b3591c82bb59cbbe26157dbe125e687cc"},
-    {file = "boto3-1.34.7.tar.gz", hash = "sha256:76b62ca46a4632117b4cd31ae56164492e41afb9fec41973688293c536580561"},
+    {file = "boto3-1.34.8-py3-none-any.whl", hash = "sha256:d6d254a467f6859f445de9ddb6bcbdd3d688f7e08b8dbe45ddd30367ec113722"},
+    {file = "boto3-1.34.8.tar.gz", hash = "sha256:9b5136832118c3edd580d92d0529d62300ec8ecced0a0572e985e67b360770e4"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.7,<1.35.0"
+botocore = ">=1.34.8,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -178,13 +178,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "boto3-session"
-version = "0.0.3"
+version = "0.0.4"
 description = "Wrapper library for python boto3.session.Session."
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "boto3_session-0.0.3-py3-none-any.whl", hash = "sha256:1e4861300821e4181b6cb129e8584cff4ae246efdbb0c0964a7066967afbf3d0"},
-    {file = "boto3_session-0.0.3.tar.gz", hash = "sha256:d9d5707064713c91f27b5768bdc7ec1895195a49359d6b560e36045b881f7277"},
+    {file = "boto3_session-0.0.4-py3-none-any.whl", hash = "sha256:fec806f8243e79cd1bc8caa8b3afcb376618fff0da766aebd9793c7cd2ab20a4"},
+    {file = "boto3_session-0.0.4.tar.gz", hash = "sha256:896e1fea96e511c8fad40a68146a1e848add449fe6b4596758f32b6f418de21f"},
 ]
 
 [package.dependencies]
@@ -192,13 +192,13 @@ boto3 = ">=1.34.7,<2.0.0"
 
 [[package]]
 name = "botocore"
-version = "1.34.7"
+version = "1.34.8"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "botocore-1.34.7-py3-none-any.whl", hash = "sha256:85164e924965c850fb02b1edcbef03f61413aff5f0064e660992b8b76c996d0c"},
-    {file = "botocore-1.34.7.tar.gz", hash = "sha256:b145a52b7d1fd4e072bcd692369d4cb77f971651bb0dc2bf38e2b4f9d62973e6"},
+    {file = "botocore-1.34.8-py3-none-any.whl", hash = "sha256:75bedd4130978a5b6068ef36c1f9e3616f57696b736143c3f19d995cd842007a"},
+    {file = "botocore-1.34.8.tar.gz", hash = "sha256:02a4026d713a2af1e33a77abd95ef83115efd3ea7bd01a2cffef35fef89acfe1"},
 ]
 
 [package.dependencies]
@@ -2009,4 +2009,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "0083c57fb20378121ef797c52dbc475855499a506ee693d790d7f85ded259b35"
+content-hash = "1403d50a1210e23323896d05a9b6a00757c2d3f29b4a79591fc38394a01693b0"
