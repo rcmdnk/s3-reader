@@ -1339,13 +1339,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyproject-pre-commit"
-version = "0.1.8"
+version = "0.1.9"
 description = "pre-commit hooks for python projects using pyproject.toml."
 optional = false
 python-versions = "<4.0.0,>=3.8.1"
 files = [
-    {file = "pyproject_pre_commit-0.1.8-py3-none-any.whl", hash = "sha256:732ce6bf4fec32d194872a0922c66b9a3b74e34a731709a2177a4f073c72ff00"},
-    {file = "pyproject_pre_commit-0.1.8.tar.gz", hash = "sha256:83b0cb5353cd6ea4cf4e42a8b300897cae8932d24c0379f320d9e474ded12918"},
+    {file = "pyproject_pre_commit-0.1.9-py3-none-any.whl", hash = "sha256:1413a6a5dc9c8a30bb2a93ad6c4e06da300d65d21007a0c70fe4ab50343b6990"},
+    {file = "pyproject_pre_commit-0.1.9.tar.gz", hash = "sha256:d49069c8f6557f46df910896c8f37bbe34c3e9f707e1432951c98e5ad1f120d6"},
 ]
 
 [package.dependencies]
@@ -1497,6 +1497,7 @@ files = [
     {file = "PyYAML-6.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:bf07ee2fef7014951eeb99f56f39c9bb4af143d8aa3c21b1677805985307da34"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:855fb52b0dc35af121542a76b9a84f8d1cd886ea97c84703eaa6d88e37a2ad28"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:40df9b996c2b73138957fe23a16a4f0ba614f4c0efce1e9406a184b6d07fa3a9"},
+    {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a08c6f0fe150303c1c6b71ebcd7213c2858041a7e01975da3a99aed1e7a378ef"},
     {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c22bec3fbe2524cde73d7ada88f6566758a8f7227bfbf93a408a9d86bcc12a0"},
     {file = "PyYAML-6.0.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8d4e9c88387b0f5c7d5f281e55304de64cf7f9c0021a3525bd3b1c542da3b0e4"},
     {file = "PyYAML-6.0.1-cp312-cp312-win32.whl", hash = "sha256:d483d2cdf104e7c9fa60c544d92981f12ad66a457afae824d146093b8c294c54"},
@@ -2004,4 +2005,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "507f577159226870c610f9c56c1acb105ca62da3f3119824174df85d900077a3"
+content-hash = "c3d980e9a06175c36e81185d6217a40bb1766c0a00265c483fb6cff11bb0ff47"
