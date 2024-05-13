@@ -12,7 +12,11 @@ class File:
     Parameters
     ----------
     path : str | Path
-        The path of the file. A local path or path to the S3 (s3://...) can be used.
+        The path of the file. A local path, path to the S3 (s3://...), or URL
+        (http(s)://...) can be used.
+    file_name : str | None
+        The name of the file. If None, the name of the file is extracted from
+        the path.
     profile_name : str | None
         AWS profile name.
     aws_access_key_id : str | None
@@ -35,26 +39,38 @@ class File:
     """
 
     path: str | Path
+    file_name: str | None = None
     profile_name: str | None = None
     aws_access_key_id: str | None = None
     aws_secret_access_key: str | None = None
     aws_session_token: str | None = None
     region_name: str | None = None
     role_arn: str | None = None
-    session_name: str = "boto3_session"
+    session_name: str = "s3_reader"
     retry_mode: str = "standard"
     max_attempts: int = 10
 
     def __post_init__(self) -> None:
-        self.orig_path = self.path
         self.path = self.fix_path(self.path)
-        self.tmp_file: tempfile._TemporaryFileWrapper[bytes] | None = None
-        if self.path.startswith("s3:"):
-            self.path = self.download_s3_file()
+        self.orig_path = self.path
+        self.load()
 
     def __del__(self) -> None:
-        if self.tmp_file is not None:
-            self.tmp_file.close()
+        self.cleanup()
+
+    def load(self) -> None:
+        if self.file_name is None:
+            self.file_name = Path(self.path).name
+        self.temp_dir: tempfile.TemporaryDirectory | None = None
+        if self.path.startswith("s3:"):
+            self.download_s3_file()
+        elif self.path.startswith("http:") or self.path.startswith("https:"):
+            self.download_http_file()
+
+    def cleanup(self) -> None:
+        if self.temp_dir is not None:
+            self.temp_dir.cleanup()
+            self.temp_dir = None
 
     @staticmethod
     def fix_path(path: str | Path) -> str:
@@ -67,13 +83,12 @@ class File:
         return str(Path(path))
 
     @staticmethod
-    def extract_s3_info(path: str | Path) -> tuple[str, str, str]:
+    def extract_s3_info(path: str | Path) -> tuple[str, str]:
         path = str(path)
         split_path = path.split("/")
         bucket_name = split_path[2]
-        file_name = "/".join(split_path[3:])
-        file_extension = split_path[-1].split(".")[-1]
-        return bucket_name, file_name, file_extension
+        key = "/".join(split_path[3:])
+        return bucket_name, key
 
     def download_s3_file(self) -> str:
         # boto3.session.Session(profile_name=self.s3_profile).resource("s3") uses random.
@@ -84,10 +99,11 @@ class File:
 
         state = random.getstate()
 
-        bucket_name, file_name, file_extension = self.extract_s3_info(
-            self.path
+        bucket_name, key = self.extract_s3_info(
+            self.orig_path
         )
-        temp_file = tempfile.NamedTemporaryFile(suffix=f".{file_extension}")
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.path = f"{self.temp_dir.name}/{self.file_name}"
 
         s3 = Session(
             profile_name=self.profile_name,
@@ -101,9 +117,15 @@ class File:
             max_attempts=self.max_attempts,
         ).resource("s3")
         bucket = s3.Bucket(bucket_name)
-        bucket.download_file(file_name, temp_file.name)
-        self.tmp_file = temp_file
+        bucket.download_file(key, self.path)
 
         random.setstate(state)
 
-        return temp_file.name
+    def download_http_file(self) -> str:
+        import urllib
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.path = f"{self.temp_dir.name}/{self.file_name}"
+
+        with urllib.request.urlopen(self.orig_path) as input_file:
+            with open(self.path, 'wb') as dest_file:
+                dest_file.write(input_file.read())
