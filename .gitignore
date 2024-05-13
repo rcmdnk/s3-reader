@@ -170,5 +170,5 @@ cython_debug/
 #/test_*/
 #/tests_*/
 #/work/
-#/*.py
+/*.py
 #/*.txt
