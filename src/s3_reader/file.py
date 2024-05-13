@@ -61,7 +61,8 @@ class File:
     def load(self) -> None:
         if self.file_name is None:
             self.file_name = Path(self.path).name
-        self.temp_dir: tempfile.TemporaryDirectory | None = None
+        self.temp_dir: tempfile.TemporaryDirectory | None = None  # type: ignore
+        self.path = str(self.path)
         if self.path.startswith("s3:"):
             self.download_s3_file()
         elif self.path.startswith("http:") or self.path.startswith("https:"):
@@ -90,7 +91,7 @@ class File:
         key = "/".join(split_path[3:])
         return bucket_name, key
 
-    def download_s3_file(self) -> str:
+    def download_s3_file(self) -> None:
         # boto3.session.Session(profile_name=self.s3_profile).resource("s3") uses random.
         # To avoid unnoticed change of random state, restore random state after the process.
         import random
@@ -99,9 +100,7 @@ class File:
 
         state = random.getstate()
 
-        bucket_name, key = self.extract_s3_info(
-            self.orig_path
-        )
+        bucket_name, key = self.extract_s3_info(self.orig_path)
         self.temp_dir = tempfile.TemporaryDirectory()
         self.path = f"{self.temp_dir.name}/{self.file_name}"
 
@@ -121,11 +120,18 @@ class File:
 
         random.setstate(state)
 
-    def download_http_file(self) -> str:
-        import urllib
+    def download_http_file(self) -> None:
+        import urllib.request
+
         self.temp_dir = tempfile.TemporaryDirectory()
         self.path = f"{self.temp_dir.name}/{self.file_name}"
 
-        with urllib.request.urlopen(self.orig_path) as input_file:
-            with open(self.path, 'wb') as dest_file:
-                dest_file.write(input_file.read())
+        if not self.orig_path.startswith(
+            "http:"
+        ) and not self.orig_path.startswith("https:"):
+            raise ValueError(
+                f"The path should start with http: or https:. (path={self.orig_path})"
+            )
+        with urllib.request.urlopen(self.orig_path) as orig_file:  # nosec
+            with open(self.path, "wb") as dest_file:
+                dest_file.write(orig_file.read())
