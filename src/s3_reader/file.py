@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
@@ -36,6 +37,9 @@ class File:
         Retry mode for failed requests. Default is "standard".
     max_attempts : int
         Maximum number of retry attempts for failed requests. Default is 10.
+    max_trials : int
+        Maximum number of trials to retry after retrieving credential error.
+        Default is 10.
     """
 
     path: str | Path
@@ -49,8 +53,10 @@ class File:
     session_name: str = "s3_reader"
     retry_mode: str = "standard"
     max_attempts: int = 10
+    max_trials: int = 10
 
     def __post_init__(self) -> None:
+        self.log = logging.getLogger(__name__)
         self.path = self.fix_path(self.path)
         self.orig_path = self.path
         self.load()
@@ -95,8 +101,10 @@ class File:
         # boto3.session.Session(profile_name=self.s3_profile).resource("s3") uses random.
         # To avoid unnoticed change of random state, restore random state after the process.
         import random
+        from time import sleep
 
         from boto3_session import Session
+        from botocore.exceptions import CredentialRetrievalError
 
         state = random.getstate()
 
@@ -104,19 +112,38 @@ class File:
         self.temp_dir = tempfile.TemporaryDirectory()
         self.path = f"{self.temp_dir.name}/{self.file_name}"
 
-        s3 = Session(
-            profile_name=self.profile_name,
-            aws_access_key_id=self.aws_access_key_id,
-            aws_secret_access_key=self.aws_secret_access_key,
-            aws_session_token=self.aws_session_token,
-            region_name=self.region_name,
-            role_arn=self.role_arn,
-            session_name=self.session_name,
-            retry_mode=self.retry_mode,
-            max_attempts=self.max_attempts,
-        ).resource("s3")
-        bucket = s3.Bucket(bucket_name)
-        bucket.download_file(key, self.path)
+        e = None
+        trials = 0
+        while trials < self.max_trials:
+            try:
+                s3 = Session(
+                    profile_name=self.profile_name,
+                    aws_access_key_id=self.aws_access_key_id,
+                    aws_secret_access_key=self.aws_secret_access_key,
+                    aws_session_token=self.aws_session_token,
+                    region_name=self.region_name,
+                    role_arn=self.role_arn,
+                    session_name=self.session_name,
+                    retry_mode=self.retry_mode,
+                    max_attempts=self.max_attempts,
+                ).resource("s3")
+                bucket = s3.Bucket(bucket_name)
+                bucket.download_file(key, self.path)
+                break
+            except CredentialRetrievalError:
+                self.log.warning(
+                    "Failed to retrieve credentials. Retrying to download the file."
+                )
+                trials += 1
+                sleep(1)
+                continue
+        else:
+            if e is not None:
+                raise e
+            else:
+                raise ValueError(
+                    "Unknown error occurred. Failed to download the file."
+                )
 
         random.setstate(state)
 
