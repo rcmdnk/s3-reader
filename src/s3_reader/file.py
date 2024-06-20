@@ -128,7 +128,7 @@ class File:
 
         if not self.orig_path.startswith(
             "http:"
-        ) and not self.orig_path.startswith("https:"):
+        ) and not (self.orig_path.startswith("http:") or self.orig_path.startswith("https:")):
             raise ValueError(
                 f"The path should start with http: or https:. (path={self.orig_path})"
             )
