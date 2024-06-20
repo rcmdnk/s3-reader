@@ -126,9 +126,10 @@ class File:
         self.temp_dir = tempfile.TemporaryDirectory()
         self.path = f"{self.temp_dir.name}/{self.file_name}"
 
-        if not self.orig_path.startswith(
-            "http:"
-        ) and not (self.orig_path.startswith("http:") or self.orig_path.startswith("https:")):
+        if not self.orig_path.startswith("http:") and not (
+            self.orig_path.startswith("http:")
+            or self.orig_path.startswith("https:")
+        ):
             raise ValueError(
                 f"The path should start with http: or https:. (path={self.orig_path})"
             )
