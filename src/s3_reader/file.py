@@ -104,7 +104,7 @@ class File:
         from time import sleep
 
         from boto3_session import Session
-        from botocore.exceptions import CredentialRetrievalError, ClientError
+        from botocore.exceptions import ClientError, CredentialRetrievalError
 
         state = random.getstate()
 
