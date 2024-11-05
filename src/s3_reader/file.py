@@ -104,7 +104,7 @@ class File:
         from time import sleep
 
         from boto3_session import Session
-        from botocore.exceptions import CredentialRetrievalError
+        from botocore.exceptions import CredentialRetrievalError, ClientError
 
         state = random.getstate()
 
@@ -130,7 +130,7 @@ class File:
                 bucket = s3.Bucket(bucket_name)
                 bucket.download_file(key, self.path)
                 break
-            except CredentialRetrievalError:
+            except (CredentialRetrievalError, ClientError):
                 self.log.warning(
                     "Failed to retrieve credentials. Retrying to download the file."
                 )
