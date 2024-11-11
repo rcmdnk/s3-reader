@@ -112,7 +112,7 @@ class File:
         self.temp_dir = tempfile.TemporaryDirectory()
         self.path = f"{self.temp_dir.name}/{self.file_name}"
 
-        e = None
+        err = None
         trials = 0
         while trials < self.max_trials:
             try:
@@ -130,7 +130,8 @@ class File:
                 bucket = s3.Bucket(bucket_name)
                 bucket.download_file(key, self.path)
                 break
-            except (CredentialRetrievalError, ClientError):
+            except (CredentialRetrievalError, ClientError) as e:
+                err = e
                 self.log.warning(
                     "Failed to retrieve credentials. Retrying to download the file."
                 )
@@ -138,8 +139,11 @@ class File:
                 sleep(1)
                 continue
         else:
-            if e is not None:
-                raise e
+            self.log.error(
+                f"Failed to download the file: {self.orig_path}."
+            )
+            if err is not None:
+                raise err
             else:
                 raise ValueError(
                     "Unknown error occurred. Failed to download the file."
