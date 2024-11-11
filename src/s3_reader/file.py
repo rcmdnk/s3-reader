@@ -139,15 +139,11 @@ class File:
                 sleep(1)
                 continue
         else:
-            self.log.error(
-                f"Failed to download the file: {self.orig_path}."
-            )
+            self.log.error(f"Failed to download the file: {self.orig_path}.")
             if err is not None:
                 raise err
             else:
-                raise ValueError(
-                    "Unknown error occurred. Failed to download the file."
-                )
+                raise ValueError("Unknown error occurred. Failed to download the file.")
 
         random.setstate(state)
 
@@ -158,8 +154,7 @@ class File:
         self.path = f"{self.temp_dir.name}/{self.file_name}"
 
         if not self.orig_path.startswith("http:") and not (
-            self.orig_path.startswith("http:")
-            or self.orig_path.startswith("https:")
+            self.orig_path.startswith("http:") or self.orig_path.startswith("https:")
         ):
             raise ValueError(
                 f"The path should start with http: or https:. (path={self.orig_path})"
