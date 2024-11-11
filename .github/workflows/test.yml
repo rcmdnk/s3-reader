@@ -24,11 +24,12 @@ on:
       main_py_ver:
         description: "Main python version for coverage/tmate."
         type: choice
-        default: "3.9"
+        default: "3.12"
         options:
           - "3.9"
           - "3.10"
           - "3.11"
+          - "3.12"
 
       tmate:
         type: boolean
@@ -52,7 +53,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     permissions:
       contents: write
     runs-on: ${{ matrix.os }}
@@ -76,16 +77,12 @@ jobs:
           else
             echo "DEBUG=0" >> $GITHUB_ENV
           fi
-      - uses: rcmdnk/python-action@v2
+      - uses: rcmdnk/python-action@v3
         with:
           checkout: 1
           setup-python: 1
           python-version: "${{ matrix.python-version }}"
-          pip: 'pip'
-          setup-cmd: 'poetry install'
-          pip-packages: ''
-          poetry: 1
-          cache: 'poetry'
+          setup-type: 'uv'
           pytest: 1
           pytest-tests-path: 'tests/'
           pytest-ignore: ''
