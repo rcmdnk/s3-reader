@@ -132,7 +132,7 @@ class File:
                 break
             except (CredentialRetrievalError, ClientError) as e:
                 err = e
-                self.log.warning(
+                self.log.debug(
                     "Failed to retrieve credentials. Retrying to download the file."
                 )
                 trials += 1
