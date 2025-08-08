@@ -40,6 +40,7 @@ class File:
     max_trials : int
         Maximum number of trials to retry after retrieving credential error.
         Default is 10.
+
     """
 
     path: str | Path
@@ -50,8 +51,8 @@ class File:
     aws_session_token: str | None = None
     region_name: str | None = None
     role_arn: str | None = None
-    session_name: str = "s3_reader"
-    retry_mode: str = "standard"
+    session_name: str = 's3_reader'
+    retry_mode: str = 'standard'
     max_attempts: int = 10
     max_trials: int = 10
 
@@ -67,11 +68,11 @@ class File:
     def load(self) -> None:
         if self.file_name is None:
             self.file_name = Path(self.path).name
-        self.temp_dir: tempfile.TemporaryDirectory | None = None  # type: ignore
+        self.temp_dir: tempfile.TemporaryDirectory[str] | None = None
         self.path = str(self.path)
-        if self.path.startswith("s3:"):
+        if self.path.startswith('s3:'):
             self.download_s3_file()
-        elif self.path.startswith("http:") or self.path.startswith("https:"):
+        elif self.path.startswith('http:') or self.path.startswith('https:'):
             self.download_http_file()
 
     def cleanup(self) -> None:
@@ -82,19 +83,19 @@ class File:
     @staticmethod
     def fix_path(path: str | Path) -> str:
         if not path:
-            return ""
+            return ''
         # remove double slash during the path (other than starting of s3://)
-        if ":/" in str(path):
-            pathes = str(path).split(":/")
-            return f"{pathes[0]}:/{Path(pathes[1])}"
+        if ':/' in str(path):
+            pathes = str(path).split(':/')
+            return f'{pathes[0]}:/{Path(pathes[1])}'
         return str(Path(path))
 
     @staticmethod
     def extract_s3_info(path: str | Path) -> tuple[str, str]:
         path = str(path)
-        split_path = path.split("/")
+        split_path = path.split('/')
         bucket_name = split_path[2]
-        key = "/".join(split_path[3:])
+        key = '/'.join(split_path[3:])
         return bucket_name, key
 
     def download_s3_file(self) -> None:
@@ -110,7 +111,7 @@ class File:
 
         bucket_name, key = self.extract_s3_info(self.orig_path)
         self.temp_dir = tempfile.TemporaryDirectory()
-        self.path = f"{self.temp_dir.name}/{self.file_name}"
+        self.path = f'{self.temp_dir.name}/{self.file_name}'
 
         err = None
         trials = 0
@@ -126,24 +127,25 @@ class File:
                     session_name=self.session_name,
                     retry_mode=self.retry_mode,
                     max_attempts=self.max_attempts,
-                ).resource("s3")
+                ).resource('s3')
                 bucket = s3.Bucket(bucket_name)
                 bucket.download_file(key, self.path)
                 break
             except (CredentialRetrievalError, ClientError) as e:
                 err = e
                 self.log.debug(
-                    "Failed to retrieve credentials. Retrying to download the file."
+                    'Failed to retrieve credentials. Retrying to download the file.'
                 )
                 trials += 1
                 sleep(1)
                 continue
         else:
-            self.log.error(f"Failed to download the file: {self.orig_path}.")
+            msg = f'Failed to download the file: {self.orig_path}.'
+            self.log.error(msg)
             if err is not None:
                 raise err
-            else:
-                raise ValueError("Unknown error occurred. Failed to download the file.")
+            msg = 'Unknown error occurred. Failed to download the file.'
+            raise ValueError(msg)
 
         random.setstate(state)
 
@@ -151,14 +153,13 @@ class File:
         import urllib.request
 
         self.temp_dir = tempfile.TemporaryDirectory()
-        self.path = f"{self.temp_dir.name}/{self.file_name}"
+        self.path = f'{self.temp_dir.name}/{self.file_name}'
 
-        if not self.orig_path.startswith("http:") and not (
-            self.orig_path.startswith("http:") or self.orig_path.startswith("https:")
+        if not self.orig_path.startswith(('http:', 'https:')):
+            msg = f'The path should start with http: or https:. (path={self.orig_path})'
+            raise ValueError(msg)
+        with (
+            urllib.request.urlopen(self.orig_path) as orig_file,  # noqa: S310
+            Path(self.path).open('wb') as dest_file,
         ):
-            raise ValueError(
-                f"The path should start with http: or https:. (path={self.orig_path})"
-            )
-        with urllib.request.urlopen(self.orig_path) as orig_file:  # nosec
-            with open(self.path, "wb") as dest_file:
-                dest_file.write(orig_file.read())
+            dest_file.write(orig_file.read())
