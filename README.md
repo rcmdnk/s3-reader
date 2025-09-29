@@ -41,3 +41,30 @@ consequently, the temporary file is also deleted.
 
 If path refers to a local file instead of an S3 file, File simply copies the
 path, and you can use the File object in the same manner.
+
+You can pass following parameters to `File` constructor to setup AWS credential:
+
+```
+profile_name : str | None
+    AWS profile name.
+aws_access_key_id : str | None
+    AWS access key id.
+aws_secret_access_key : str | None
+    AWS secret access key.
+aws_session_token : str | None
+    AWS session token.
+region_name : str | None
+    AWS region name.
+role_arn : str | None
+    AWS role arn for Assume role. If this is set, aws_access_key_id,
+    aws_secret_access_key, aws_session_token are replaced by Assume role.
+session_name : str
+    AWS session name. Default is "s3_reader".
+retry_mode : str
+    Retry mode for failed requests. Default is "standard".
+max_attempts : int
+    Maximum number of retry attempts for failed requests. Default is 10.
+max_trials : int
+    Maximum number of trials to retry after retrieving credential error.
+    Default is 10.
+```
