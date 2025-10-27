@@ -1,6 +1,6 @@
 [project]
 name = "s3-reader"
-version = "0.3.9"
+version = "0.4.0"
 description = "Python library to read S3 file as local file."
 authors = [ {name = "rcmdnk", email = "rcmdnk@gmail.com" }]
 readme = "README.md"
