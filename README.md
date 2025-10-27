@@ -7,7 +7,7 @@ Python library to read S3 file as local file.
 
 ## Requirement
 
-- Python 3.9, 3.10, 3.11
+- Python >=3.9
 
 ## Installation
 
@@ -64,6 +64,8 @@ retry_mode : str
     Retry mode for failed requests. Default is "standard".
 max_attempts : int
     Maximum number of retry attempts for failed requests. Default is 10.
+use_device_code : bool
+    Whether to use device code flow for SSO login. Default is False.
 max_trials : int
     Maximum number of trials to retry after retrieving credential error.
     Default is 10.

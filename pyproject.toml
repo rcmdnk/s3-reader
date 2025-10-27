@@ -9,7 +9,7 @@ keywords = ["aws", "s3", "file", "read"]
 classifiers = []
 requires-python = ">=3.9"
 dependencies = [
-  "boto3-session >=0.0.9",
+  "boto3-session >=0.2.0",
 ]
 
 

@@ -76,15 +76,15 @@ wheels = [
 
 [[package]]
 name = "boto3-session"
-version = "0.0.9"
+version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
     { name = "botocore" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/62/7b/c0d8218893e600dabd2b0d9cfedc2d147fe821519a8ed48466105a14fbb0/boto3_session-0.0.9.tar.gz", hash = "sha256:cd39dcec52e1321ff335e6c52b6f4d5e1c5efb0a12f76933fe26e2d179c4be41", size = 4342, upload-time = "2025-08-08T10:34:09.094Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e3/40/7e6c6ecba405a3159f0ef5ce246a910d2da03320e02173721f32cf7c0bfb/boto3_session-0.2.0.tar.gz", hash = "sha256:8c4af83cad37dd2dcf7716906e20ac9c1c1634f814b3da2696bd742c792f65b6", size = 9319, upload-time = "2025-10-27T18:33:17.78Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c5/ed/9129e358578833aeea1e0c77b2f2ddb04937a7bdd01720a9b65c57970e33/boto3_session-0.0.9-py3-none-any.whl", hash = "sha256:ecc348065038abf8fd95f41ba35038c30d740d36e74642eb8ace2e7c6e96d911", size = 4270, upload-time = "2025-08-08T10:34:07.653Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/f5/9ff8e72cfe981e999c5f1a6f425b210d64b7b4656999146b8b65d69fdc69/boto3_session-0.2.0-py3-none-any.whl", hash = "sha256:44ecc26610554301984c5eedb6c877eaa44cf0835cc930be150afe6a5d9005cf", size = 9795, upload-time = "2025-10-27T18:33:16.674Z" },
 ]
 
 [[package]]
@@ -507,7 +507,7 @@ name = "exceptiongroup"
 version = "1.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/0b/9f/a65090624ecf468cdca03533906e7c69ed7588582240cfe7cc9e770b50eb/exceptiongroup-1.3.0.tar.gz", hash = "sha256:b241f5885f560bc56a59ee63ca4c6a8bfa46ae4ad651af316d4e81817bb9fd88", size = 29749, upload-time = "2025-05-10T17:42:51.123Z" }
 wheels = [
@@ -1513,7 +1513,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "boto3-session", specifier = ">=0.0.9" }]
+requires-dist = [{ name = "boto3-session", specifier = ">=0.2.0" }]
 
 [package.metadata.requires-dev]
 dev = [

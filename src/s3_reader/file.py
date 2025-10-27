@@ -40,6 +40,8 @@ class File:
     max_trials : int
         Maximum number of trials to retry after retrieving credential error.
         Default is 10.
+    use_device_code : bool
+        Whether to use device code flow for SSO login. Default is False.
 
     """
 
@@ -55,6 +57,7 @@ class File:
     retry_mode: str = 'standard'
     max_attempts: int = 10
     max_trials: int = 10
+    use_device_code: bool = False
 
     def __post_init__(self) -> None:
         self.log = logging.getLogger(__name__)
@@ -127,6 +130,7 @@ class File:
                     session_name=self.session_name,
                     retry_mode=self.retry_mode,
                     max_attempts=self.max_attempts,
+                    use_device_code=self.use_device_code,
                 ).resource('s3')
                 bucket = s3.Bucket(bucket_name)
                 bucket.download_file(key, self.path)
